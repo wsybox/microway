@@ -1,0 +1,18 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always"
+  },
+
+  "prettier.useEditorConfig": true,
+  "prettier.configPath": ".prettierrc.cjs",
+  "prettier.endOfLine": "lf",
+
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.cjs",
+    "extensions": [".js", ".ts", ".json"]
+  }
+}
