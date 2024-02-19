@@ -12,7 +12,7 @@ import { init, l } from 'microway'
 const { fragment } = init()
 ```
 
-调用 fragment 函数，在参数括号内使用 l 函数来编写 html 标签正如其名，fragment 函数返回一个 DocumentFragment，然后来把
+调用 fragment 函数，在参数括号内使用 l 函数来编写 html 标签，正如其名，fragment 函数返回一个 DocumentFragment，然后来把
 fgm 挂载到界面
 
 ```js
@@ -26,7 +26,7 @@ const fgm = fragment(
 document.querySelector('#app')!.appendChild(fgm)
 ```
 
-接下来是在标签上引入js变量，让我们再引入 baseModule 函数然后再 init 时传入 baseModule 模块
+接下来是在标签上引入js变量，让我们再引入 baseModule 然后再 init 时传入 baseModule 插件
 
 ```js
 import { init, l, baseModule } from 'microway'
@@ -121,7 +121,8 @@ const fgm = fragment(
 )
 ```
 
-重点说一下最后的函数部分，引入 signalModule 模块后，fragment 会将 参数里的函数看作动态节点，使用 fragment 编译函数的返回
+重点说一下最后的函数部分，引入 signalModule 插件后，fragment 会将 参数里的函数看作动态节点，使用 fragment 编译函数的返回
 值， 再插入到函数的位置，函数会用作 memo 的参数， 所以只要函数里的响应式数据有更改， 函数部分的节点都会重新渲染一次
 
 [项目地址](https://github.com/wsybox/microway)
+[也许可以不用vue模板和jsx，在js当中就可以灵活、优雅、简洁的编写UI](https://juejin.cn/post/7337211350042787876)

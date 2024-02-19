@@ -1,9 +1,16 @@
 {
   "name": "microway",
   "private": false,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "用于编写HTML标签的JS库",
   "author": "wsybox",
+  "keywords": [
+    "microway",
+    "dom",
+    "template",
+    "vnode",
+    "jsx"
+  ],
   "license": "MIT",
   "type": "module",
   "main": "dist/microway.umd.js",
