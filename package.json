@@ -1,7 +1,7 @@
 {
   "name": "microway",
   "private": false,
-  "version": "0.0.7",
+  "version": "0.1.1",
   "description": "用于编写HTML标签的JS库",
   "author": "wsybox",
   "keywords": [
