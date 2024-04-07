@@ -1,4 +1,6 @@
-export * from './init'
-export * from './baseModule'
-export * from './signalModule'
-export * from './htmldomapi'
+import { init, render } from './core'
+init(h => h.to(render))
+
+export { t, use } from './core'
+export { signalExtendPlugin } from './plugin/signalExtend'
+export { define, definePlugin } from './plugin/define'
