@@ -1,4 +1,5 @@
 import { getKebabCase, genhook } from '.'
+type Call = <T extends any>(...args: any[]) => T
 
 type VData = {
   tag: string
@@ -8,14 +9,14 @@ type VData = {
 }
 
 export class Way extends Function {
-  private _call: <T extends any>(...args: any[]) => T
-  setCall(call: <T extends any>(...args: any[]) => T) {
+  private _call
+  setCall(call: Call) {
     this._call = call
   }
 
   data: VData
   ns?: string
-  constructor(data: VData, call: <T extends any>(...args: any[]) => T) {
+  constructor(data: VData, call: Call) {
     super()
     this._call = call
     this.data = data
