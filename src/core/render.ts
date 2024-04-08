@@ -46,7 +46,7 @@ const compilerParm = (elm: Element, parm: any[]) => {
   }
 }
 
-const isNode = (data: any): data is Element | DocumentFragment | Text | Comment =>
+const isNode = (data: unknown): data is Element | DocumentFragment | Text | Comment =>
   ctx.api.isElement(data) || ctx.api.isFragment(data) || ctx.api.isText(data) || ctx.api.isComment(data)
 
 export const compilerChildren = (parent: Element | DocumentFragment, ch: any[]) => {
@@ -59,7 +59,7 @@ export const compilerChildren = (parent: Element | DocumentFragment, ch: any[]) 
     else if (isArray(item) && item.length > 0)
       ctx.api.append(parent, compilerChildren(ctx.api.createDocumentFragment(), item))
     else if (cbs.compile) {
-      let cb, dom: any
+      let cb, dom
       for (cb of cbs.compile) {
         dom = cb(item)
         if (dom && isNode(dom)) {

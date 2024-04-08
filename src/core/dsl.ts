@@ -1,6 +1,4 @@
 import { getKebabCase, genhook } from '.'
-type Call = <T extends any>(...args: any[]) => T
-type Use = (p: (h: typeof hook, ctx: any) => void) => { use: Use }
 
 type VData = {
   tag: string
@@ -10,14 +8,14 @@ type VData = {
 }
 
 export class Way extends Function {
-  private _call: Call
-  setCall(call: Call) {
+  private _call: <T extends any>(...args: any[]) => T
+  setCall(call: <T extends any>(...args: any[]) => T) {
     this._call = call
   }
 
   data: VData
-  ns?: any
-  constructor(data: VData, call: Call) {
+  ns?: string
+  constructor(data: VData, call: <T extends any>(...args: any[]) => T) {
     super()
     this._call = call
     this.data = data
@@ -34,11 +32,13 @@ const isTemp = (args: any[]): args is [strs: TemplateStringsArray, ...vals: any[
   args.length === args[0].length
 
 const ctx: any = {}
-const cbs: any = {}
+const cbs: {
+  to?: ((way: { data: VData; ns?: string }) => any)[]
+  from?: ((way: { data: VData; ns?: string }) => any)[]
+} = {}
 const hook = genhook<(way: Way) => any>(cbs)
 
-const _use: { use: Use } = { use: p => (p(hook, ctx), _use) }
-export const use = _use.use
+export const use = (p: (h: typeof hook, ctx: any) => void) => p(hook, ctx)
 
 const chCall = function (this: Way, ...children: any[]) {
   let { data: d, ns } = this
@@ -55,7 +55,7 @@ const chCall = function (this: Way, ...children: any[]) {
   return { data, ns }
 }
 
-const handle = (ns?: any) => ({
+const handle = (ns?: string) => ({
   get: (_: any, _tag: string) => {
     let tag = getKebabCase(_tag)
     const way: any = new Way({ tag }, function (this: Way, ...args: any[]) {
@@ -74,4 +74,5 @@ const handle = (ns?: any) => ({
     return way
   }
 })
-export const t = new Proxy((ns: any) => new Proxy(t, handle(ns)), handle())
+
+export const t = new Proxy((ns: string) => new Proxy(t, handle(ns)), handle())

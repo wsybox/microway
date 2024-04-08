@@ -2,8 +2,14 @@ import { api, isBoolean, isPrimitive, isArray, isString, isFunction, isPlainObje
 
 type Obj = { [key in string]: any }
 type Use = (p: Obj | ((ctx: Obj, h: typeof hook) => Obj)) => { use: Use }
+type CB = (elm: Element, key: string, val: any) => boolean | undefined
 
-const pcbs: Obj = {}
+const pcbs: {
+  class?: CB[]
+  style?: CB[]
+  on?: CB[]
+  data?: CB[]
+} = {}
 
 export const ctx: Obj = {
   parmAction: genhook<(elm: Element, key: string, val: any) => boolean | undefined>(pcbs),
@@ -46,21 +52,21 @@ pcbs.data = [
 
 const pKeys = Object.keys(pcbs)
 
-export const cbs: any = {
+export const cbs: Obj = {
   param: [
-    (elm: Element, key: string, val: any) => {
+    (elm: Element, key: keyof typeof pcbs, val: any) => {
       if (isArray(val) && key === 'class') {
         val.forEach(name => {
           if (isString(name)) ctx.api.classList(elm).add(name)
         })
         return true
       } else if (isFunction(val) && key.startsWith('on')) {
-        pcbs.on[0](elm, key.slice(2), val)
+        pcbs.on![0](elm, key.slice(2), val)
         return true
       } else if (isPlainObject(val) && pKeys.includes(key)) {
         Object.entries(val).forEach(([name, data]) => {
           let cb
-          for (cb of pcbs[key]) if (cb(elm, name, data)) break
+          for (cb of pcbs[key]!) if (cb(elm, name, data)) break
         })
 
         return true
